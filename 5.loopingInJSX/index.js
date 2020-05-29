@@ -1,11 +1,16 @@
 class Hello extends React.Component {
   render() {
+    const msgs = [
+      { id: 1, text: "Greetings!" },
+      { id: 2, text: "Goodbye!" },
+    ];
+
     return (
-      <div>
-        <h1>Hello there!</h1>
-        <h1>Hello there!</h1>
-        <h1>Hello there!</h1>
-      </div>
+      <ul>
+        {msgs.map((m) => (
+          <li>{m.text}</li>
+        ))}
+      </ul>
     );
   }
 }
