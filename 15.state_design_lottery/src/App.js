@@ -5,9 +5,9 @@ import Lottery from "./Lottery";
 function App() {
   return (
     <div className="App">
-      <h1>Testing</h1>
-      <Lottery maxNum={100} numBalls={10} title="MEGA" />
-      <Lottery maxNum={20} numBalls={4} title="MINI" />
+      <Lottery maxNum={50} title="BIG" numBalls={6} />
+      <Lottery maxNum={100} title="MEGA" numBalls={10} />
+      <Lottery maxNum={20} title="MINI" numBalls={4} />
     </div>
   );
 }

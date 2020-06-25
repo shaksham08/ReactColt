@@ -1,0 +1,8 @@
+.Lottery {
+  width: 40em;
+  border: 2px solid gray;
+  padding: 2em 2em;
+  border-radius: 0.5em;
+  text-align: center;
+  margin: 1em auto auto;
+}
