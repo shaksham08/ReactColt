@@ -37,7 +37,6 @@ class Flip extends React.Component {
     });
   }
   render() {
-    console.log(this.state);
     return (
       <div>
         <h1>Lets Flip a coin</h1>

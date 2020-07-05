@@ -6,7 +6,7 @@ class Lottery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      num: Array.from({ length: this.props.numBalls }),
+      num: Array(this.props.numBalls).fill(null),
     };
 
     this.generatelotto = this.generatelotto.bind(this);
