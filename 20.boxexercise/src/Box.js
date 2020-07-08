@@ -6,7 +6,7 @@ class Box extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
-    this.props.remove(this.props.key);
+    this.props.remove(this.props.id);
   }
   render() {
     return (

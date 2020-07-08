@@ -1,7 +1,6 @@
 import React from "react";
 import Box from "./Box";
 import NewBoxForm from "./NewBoxForm";
-import { v4 as uuidv4 } from "uuid";
 
 class BoxList extends React.Component {
   constructor(props) {
@@ -14,18 +13,15 @@ class BoxList extends React.Component {
   }
 
   addBoxes(details) {
-    details.id = uuidv4();
-
     this.setState({
       boxes: [...this.state.boxes, details],
     });
   }
 
   removeBoxes(id) {
-    const newBoxes = this.state.boxes.filter((box) => box.key !== id);
-    console.log(newBoxes);
+    const newBox = this.state.boxes.filter((box) => box.id !== id);
     this.setState({
-      boxes: [...newBoxes],
+      boxes: [...newBox],
     });
   }
   render() {
@@ -37,6 +33,7 @@ class BoxList extends React.Component {
         addNew={this.addBoxes}
         remove={this.removeBoxes}
         key={box.id}
+        id={box.id}
       />
     ));
     return (
