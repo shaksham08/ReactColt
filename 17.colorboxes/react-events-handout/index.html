@@ -1,0 +1,612 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>React Events</title>
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/handouts-sphinx.css"/>
+
+    
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Inconsolata:400,700'
+          rel='stylesheet' type='text/css'>
+    
+</head>
+<body>
+<div id="page-wrapper">
+    <div id="page-sidebar">
+        <header>
+            <p class="project">Demo</p>
+
+            <p class="title">React Events</p>
+
+            <p class="backlink"><a href=""> &laquo; Back to Homepage</a></p>
+
+        </header>
+        <div id="toc">
+            <ul>
+<li><a class="reference internal" href="#">React Events</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a><ul>
+<li><a class="reference internal" href="#id1">Goals</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#react-events-review">React Events Review</a><ul>
+<li><a class="reference internal" href="#id2">React Events</a></li>
+<li><a class="reference internal" href="#event-attributes">Event Attributes</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#method-binding">Method Binding</a><ul>
+<li><a class="reference internal" href="#the-keyword-this">The keyword <cite>this</cite></a></li>
+<li><a class="reference internal" href="#example-revisited">Example Revisited</a></li>
+<li><a class="reference internal" href="#fixing-our-binding">Fixing our binding</a></li>
+<li><a class="reference internal" href="#inline">Inline</a></li>
+<li><a class="reference internal" href="#arrow-functions">Arrow Functions</a></li>
+<li><a class="reference internal" href="#in-the-constructor">In the constructor</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#method-binding-with-arguments">Method Binding with Arguments</a><ul>
+<li><a class="reference internal" href="#id3">Method Binding with Arguments</a></li>
+<li><a class="reference internal" href="#an-example">An Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#passing-functions-to-child-components">Passing functions to child components</a><ul>
+<li><a class="reference internal" href="#id4">Passing functions to child components</a></li>
+<li><a class="reference internal" href="#how-data-flows">How data flows</a></li>
+<li><a class="reference internal" href="#what-it-looks-like">What it looks like</a></li>
+<li><a class="reference internal" href="#using-a-single-bound-function">Using a single bound function</a></li>
+<li><a class="reference internal" href="#where-to-bind">Where to bind?</a></li>
+<li><a class="reference internal" href="#naming-conventions">Naming Conventions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lists-and-keys">Lists and Keys</a><ul>
+<li><a class="reference internal" href="#id5">Lists and Keys</a></li>
+<li><a class="reference internal" href="#adding-keys">Adding keys</a></li>
+<li><a class="reference internal" href="#keys">Keys</a></li>
+<li><a class="reference internal" href="#picking-a-key">Picking a key</a></li>
+<li><a class="reference internal" href="#last-resort">Last resort</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    </div>
+    <div id="page-content">
+        
+  <div class="section" id="react-events">
+<h1>React Events</h1>
+<div class="section" id="goals">
+<h2>Goals</h2>
+<div class="section" id="id1">
+<div class="docutils container">
+<ul class="simple">
+<li>Attach event handlers to components in React</li>
+<li>Use method binding to preserve the <cite>this</cite> context with event handlers</li>
+<li>Pass event handlers down as props to child components</li>
+<li>Understand the <cite>key</cite> prop that React asks for when mapping over data</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="react-events-review">
+<h2>React Events Review</h2>
+<div class="section" id="id2">
+<h3>React Events</h3>
+<p>You can attach event handlers to HTML elements in React <span class="raw-reveal"><br></span> via special reserved attributes.</p>
+<p>(You can do this in vanilla JS too, though the syntax is a bit different.)</p>
+</div>
+<div class="section" id="event-attributes">
+<h3>Event Attributes</h3>
+<p>Any event you can listen for in JS, you can listen for in React.</p>
+<div class="docutils container">
+<p>Examples:</p>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>Mouse events: <code class="docutils literal notranslate"><span class="pre">onClick</span></code>, <code class="docutils literal notranslate"><span class="pre">onMouseOver</span></code>, etc</li>
+<li>Form events: <code class="docutils literal notranslate"><span class="pre">onSubmit</span></code>, etc</li>
+<li>Keyboard events: <code class="docutils literal notranslate"><span class="pre">onKeyDown</span></code>, <code class="docutils literal notranslate"><span class="pre">onKeyUp</span></code>, <code class="docutils literal notranslate"><span class="pre">onKeyPress</span></code></li>
+<li><a class="reference external" href="https://reactjs.org/docs/events.html#supported-events">Full list</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="example">
+<h3>Example</h3>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">demo/events-examples/src/WiseSquare.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s">&quot;react&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="s">&quot;./WiseSquare.css&quot;</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">WiseSquare</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">dispenseWisdom</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">messages</span> <span class="o">=</span> <span class="p">[</span> <span class="cm">/* wise messages go here */</span>
+    <span class="p">];</span>
+    <span class="kd">let</span> <span class="nx">rIndex</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">messages</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">messages</span><span class="p">[</span><span class="nx">rIndex</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;WiseSquare&quot;</span>
+           <span class="na">onMouseEnter</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">dispenseWisdom</span><span class="p">}&gt;</span>
+        😃
+      &lt;<span class="p">/d</span><span class="nt">iv&gt;</span><span class="p"></span>
+    )<span class="p">;</span>
+  }<span class="p"></span>
+}<span class="p"></span>
+
+e<span class="k">xport </span>d<span class="k">efault </span>W<span class="nx">iseSquare;</span><span class="p"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="method-binding">
+<h2>Method Binding</h2>
+<div class="section" id="the-keyword-this">
+<h3>The keyword <cite>this</cite></h3>
+<div class="docutils container">
+<ul class="simple">
+<li>When your event handlers reference the keyword <cite>this</cite>, watch out!</li>
+<li>You will lose the <cite>this</cite> context when you pass a function as a handler</li>
+<li>Let’s see what happens when we try to move our quotes into <cite>defaultProps</cite></li>
+</ul>
+</div>
+</div>
+<div class="section" id="example-revisited">
+<h3>Example Revisited</h3>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">demo/events-examples/src/WiseSquareWithProps.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">WiseSquareWithProps</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">static</span> <span class="nx">defaultProps</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">messages</span><span class="p">:</span> <span class="p">[</span> <span class="cm">/* wise messages go here */</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+
+  <span class="nx">dispenseWisdom</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;THIS IS:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span> <span class="c1">// undefined 😭</span>
+    l<span class="kd">et </span>{<span class="p"> </span>m<span class="nx">essages </span>}<span class="p"> </span>=<span class="o"> </span>t<span class="k">his.</span><span class="p">p</span><span class="nx">rops;</span><span class="p"></span>
+    l<span class="kd">et </span>r<span class="nx">Index </span>=<span class="o"> </span>M<span class="nx">ath.</span><span class="p">f</span><span class="nx">loor(</span><span class="p">M</span><span class="nx">ath.</span><span class="p">r</span><span class="nx">andom(</span><span class="p">) </span>*<span class="o"> </span>m<span class="nx">essages.</span><span class="p">l</span><span class="nx">ength)</span><span class="p">;</span>
+    c<span class="nx">onsole.</span><span class="p">l</span><span class="nx">og(</span><span class="p">m</span><span class="nx">essages[</span><span class="p">r</span><span class="nx">Index]</span><span class="p">);</span>
+  }<span class="p"></span>
+
+  r<span class="nx">ender(</span><span class="p">) </span>{<span class="p"></span>
+    r<span class="k">eturn </span>(<span class="p"></span>
+      &lt;<span class="p">d</span><span class="nt">iv </span>c<span class="na">lassName=</span><span class="o">&quot;</span><span class="s">WiseSquare&quot;</span>
+           o<span class="na">nMouseEnter=</span><span class="o">{</span><span class="p">t</span><span class="k">his.</span><span class="p">d</span><span class="nx">ispenseWisdom}</span><span class="p">&gt;</span>
+        😃
+      &lt;/<span class="p">di</span><span class="nt">v&gt;</span>
+<span class="p"> </span>   );<span class="p"></span>
+<span class="p"> </span> }
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fixing-our-binding">
+<h3>Fixing our binding</h3>
+<p>There are three ways to fix this:</p>
+<div class="docutils container">
+<ol class="arabic simple">
+<li>Use <cite>bind</cite> inline</li>
+<li>Use an arrow function</li>
+<li>Method bind in the constructor</li>
+</ol>
+</div>
+</div>
+<div class="section" id="inline">
+<h3>Inline</h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;WiseSquare&quot;</span>
+      <span class="na">onMouseEnter</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">dispenseWisdom</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span> <span class="p">&gt;</span>
+  <span class="p">{</span><span class="cm">/* */</span><span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="compare docutils container">
+<div class="docutils container">
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>Very Explicit</li>
+</ul>
+</div>
+<div class="docutils container">
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>What if you need to pass <code class="docutils literal notranslate"><span class="pre">this.dispenseWisdom</span></code> <span class="raw-reveal"><br></span> to multiple components?</li>
+<li>new function created on every render</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="arrow-functions">
+<h3>Arrow Functions</h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;WiseSquare&quot;</span>
+      <span class="na">onMouseEnter</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">dispenseWisdom</span><span class="p">()}</span> <span class="p">&gt;</span>
+  <span class="p">{</span><span class="cm">/* */</span><span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="compare docutils container">
+<div class="docutils container">
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>No mention of bind!</li>
+</ul>
+</div>
+<div class="docutils container">
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>Intent less clear</li>
+<li>Again, what if you need to pass the fn to multiple components?</li>
+<li>new function created on every render</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="in-the-constructor">
+<h3>In the constructor</h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">WiseSquareWithProps</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="cm">/* do other stuff */</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispenseWisdom</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">dispenseWisdom</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="compare docutils container">
+<div class="docutils container">
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>Only need to bind once!</li>
+<li>More performant</li>
+</ul>
+</div>
+<div class="docutils container">
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>Hot reloading won’t apply</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="method-binding-with-arguments">
+<h2>Method Binding with Arguments</h2>
+<div class="section" id="id3">
+<div class="docutils container">
+<p>In our previous examples, <code class="docutils literal notranslate"><span class="pre">this.dispenseWisdom</span></code> <span class="raw-reveal"><br></span> didn’t take any arguments.</p>
+</div>
+<div class="docutils container">
+<p>But what if we need to pass arguments to an event handler?</p>
+</div>
+</div>
+<div class="section" id="an-example">
+<h3>An Example</h3>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">demo/events-examples/src/ButtonList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">ButtonList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">static</span> <span class="nx">defaultProps</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">colors</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;peachpuff&quot;</span><span class="p">]</span>
+  <span class="p">};</span>
+
+  <span class="nx">handleClick</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="s">You clicked on the </span><span class="si">${</span><span class="nx">color</span><span class="si">}</span><span class="s"> button.</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;ButtonList&quot;</span><span class="p">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">colors</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">c</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="kd">const</span> <span class="nx">colorObj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">backgroundColor</span><span class="p">:</span> <span class="nx">c</span> <span class="p">};</span>
+          <span class="k">return</span> <span class="p">(</span>
+            <span class="p">&lt;</span><span class="nt">button</span> <span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">colorObj</span><span class="p">}</span>
+<span class="hll">                    <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">c</span><span class="p">)}&gt;</span>
+</span>              Click on me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+          <span class="p">);</span>
+        <span class="p">})}</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>Inside of a loop, you can bind and pass in additional arguments</li>
+<li>Also possible to use an arrow function</li>
+<li>Both these approaches suffer from the same performance downsides we’ve already seen</li>
+<li>We can do better, but first we need to talk about…</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="passing-functions-to-child-components">
+<h2>Passing functions to child components</h2>
+<div class="section" id="id4">
+<div class="docutils container">
+<ul class="simple">
+<li>A very common pattern in React</li>
+<li>The idea: children are often not stateful, <span class="raw-reveal"><br></span> but need to tell parents to change state</li>
+<li>How we send data “back up” to a parent component</li>
+</ul>
+</div>
+</div>
+<div class="section" id="how-data-flows">
+<h3>How data flows</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>A parent component defines a function</li>
+<li>The function is passed as a prop to a child component</li>
+<li>The child component invokes the prop</li>
+<li>The parent function is called, usually setting new state</li>
+<li>The parent component is re-rendered along with its children</li>
+</ul>
+</div>
+</div>
+<div class="section" id="what-it-looks-like">
+<h3>What it looks like</h3>
+<div class="compare docutils container">
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">demo/numbers-app/src/NumberList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NumberList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">nums</span><span class="p">:</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">]</span> <span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="nx">remove</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">st</span> <span class="o">=&gt;</span> <span class="p">({</span>
+      <span class="nx">nums</span><span class="p">:</span> <span class="nx">st</span><span class="p">.</span><span class="nx">nums</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">n</span> <span class="o">=&gt;</span> <span class="nx">n</span> <span class="o">!==</span> <span class="nx">num</span><span class="p">)</span>
+    <span class="p">}));</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">nums</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">nums</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">n</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">NumberItem</span> <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">n</span><span class="p">}</span> <span class="na">remove</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">n</span><span class="p">)}</span> <span class="p">/&gt;</span>
+    <span class="p">));</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;{</span><span class="nx">nums</span><span class="p">}&lt;/</span><span class="nt">ul</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">demo/numbers-app/src/NumberItem.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NumberItem</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">(){</span>
+    <span class="k">return</span><span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">value</span><span class="p">}</span>
+        <span class="p">&lt;</span><span class="nt">button</span> 
+          <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">remove</span><span class="p">}&gt;</span>
+          X
+        <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>We could also method bind <span class="raw-reveal"><br></span> inside of the <cite>map</cite></li>
+<li>In fact, we can do even better!</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="using-a-single-bound-function">
+<h3>Using a single bound function</h3>
+<div class="compare docutils container">
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">demo/numbers-app/src/BetterNumList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">BetterNumList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">nums</span><span class="p">:</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">]</span> <span class="p">};</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">remove</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+
+  <span class="nx">remove</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">st</span> <span class="o">=&gt;</span> <span class="p">({</span>
+      <span class="nx">nums</span><span class="p">:</span> <span class="nx">st</span><span class="p">.</span><span class="nx">nums</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">n</span> <span class="o">=&gt;</span> <span class="nx">n</span> <span class="o">!==</span> <span class="nx">num</span><span class="p">)}))</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">nums</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">nums</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">n</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">BetterNumItem</span> <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">n</span><span class="p">}</span>
+        <span class="na">remove</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">}</span> <span class="p">/&gt;</span>
+    <span class="p">));</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;{</span><span class="nx">nums</span><span class="p">}&lt;/</span><span class="nt">ul</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">demo/numbers-app/src/BetterNumItem.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NumberItem</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">handleRemove</span> <span class="o">=</span>
+</span><span class="hll">      <span class="k">this</span><span class="p">.</span><span class="nx">handleRemove</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+
+  <span class="nx">handleRemove</span><span class="p">()</span> <span class="p">{</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">(){</span>
+    <span class="k">return</span><span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">value</span><span class="p">}</span>
+        <span class="p">&lt;</span><span class="nt">button</span> 
+          <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleRemove</span><span class="p">}&gt;</span>
+          X
+        <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="where-to-bind">
+<h3>Where to bind?</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>The higher the better - don’t bind in the child component if not needed.</li>
+<li>If you need a parameter, pass it down to the child as a prop, <span class="raw-reveal"><br></span> then bind in parent and child</li>
+<li>Avoid inline arrow functions / binding if possible</li>
+<li>No need to bind in the constructor <strong>and</strong> make an inline function</li>
+<li>If you get stuck, don’t worry about performance, <span class="raw-reveal"><br></span> just try to get the communication working<ul>
+<li>You can always refactor later!</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="naming-conventions">
+<h3>Naming Conventions</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>You can call these handlers whatever you want - React doesn’t care</li>
+<li>For consistency, try to follow the <code class="docutils literal notranslate"><span class="pre">action</span></code> / <code class="docutils literal notranslate"><span class="pre">handleAction</span></code> pattern:<ul>
+<li>In the parent, give the function a name corresponding to the behavior <span class="raw-reveal"><br></span> (<code class="docutils literal notranslate"><span class="pre">remove</span></code>, <code class="docutils literal notranslate"><span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">open</span></code>, <code class="docutils literal notranslate"><span class="pre">toggle</span></code>, etc.)</li>
+<li>In the child, use the name of the action along with “handle” <span class="raw-reveal"><br></span> to name the event handler <span class="raw-reveal"><br></span> (<code class="docutils literal notranslate"><span class="pre">handleRemove</span></code>, <code class="docutils literal notranslate"><span class="pre">handleAdd</span></code>, <code class="docutils literal notranslate"><span class="pre">handleOpen</span></code>, <code class="docutils literal notranslate"><span class="pre">handleToggle</span></code>, etc.)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="lists-and-keys">
+<h2>Lists and Keys</h2>
+<div class="section" id="id5">
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">demo/numbers-app/src/BetterNumList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">BetterNumList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">nums</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">nums</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">n</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">BetterNumItem</span> <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">n</span><span class="p">}</span>
+        <span class="na">remove</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">}</span> <span class="p">/&gt;</span>
+    <span class="p">));</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;{</span><span class="nx">nums</span><span class="p">}&lt;/</span><span class="nt">ul</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>When mapping over data and returning components, <span class="raw-reveal"><br></span> you get a warning about keys for list items</li>
+<li><cite>key</cite> is a special string attr to include when creating lists of elements</li>
+</ul>
+</div>
+</div>
+<div class="section" id="adding-keys">
+<h3>Adding keys</h3>
+<p>Let’s assign a key to our list items inside <cite>numbers.map()</cite></p>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NumberList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">nums</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">nums</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">n</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">NumberItem</span> <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">n</span><span class="p">}</span>
+<span class="hll">        <span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">n</span><span class="p">}</span>
+</span>        <span class="na">remove</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">}</span>
+      <span class="p">/&gt;</span>
+    <span class="p">));</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;{</span><span class="nx">nums</span><span class="p">}&lt;/</span><span class="nt">ul</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="keys">
+<h3>Keys</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Keys help React identify which items are changed/added/removed.</li>
+<li>Keys should be given to repeated elems to provide a stable identity.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="picking-a-key">
+<h3>Picking a key</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Best way: use string that uniquely identifies item among siblings.</li>
+<li>Most often you would use IDs from your data as keys:</li>
+</ul>
+</div>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">todoItems</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">todos</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">todo</span> <span class="o">=&gt;</span>
+  <span class="p">&lt;</span><span class="nt">li</span> <span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">todo</span><span class="p">.</span><span class="nx">id</span><span class="p">}&gt;</span>
+    <span class="p">{</span><span class="nx">todo</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span>
+  <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="last-resort">
+<h3>Last resort</h3>
+<p>When you don’t have stable IDs for rendered items, <span class="raw-reveal"><br></span>
+you may use the iteration index as a key as a last resort:</p>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only do this if items have no stable IDs</span>
+
+<span class="kd">const</span> <span class="nx">todoItems</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">todos</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">todo</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="p">&lt;</span><span class="nt">li</span> <span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}&gt;</span>
+    <span class="p">{</span><span class="nx">todo</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span>
+  <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>Don’t use indexes for keys if item order may change or items can be deleted.<ul>
+<li>This can cause performance problems or bugs with component state.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="_static/jquery.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<script type="text/javascript" src="_static/language_data.js"></script> 
+</body>
+</html>

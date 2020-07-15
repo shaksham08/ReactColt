@@ -1,0 +1,577 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>React State I</title>
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/handouts-sphinx.css"/>
+
+    
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Inconsolata:400,700'
+          rel='stylesheet' type='text/css'>
+    
+</head>
+<body>
+<div id="page-wrapper">
+    <div id="page-sidebar">
+        <header>
+            <p class="project">Demo</p>
+
+            <p class="title">React State I</p>
+
+            <p class="backlink"><a href=""> &laquo; Back to Homepage</a></p>
+
+        </header>
+        <div id="toc">
+            <ul>
+<li><a class="reference internal" href="#">React State I</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a><ul>
+<li><a class="reference internal" href="#id1">Goals</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-is-state">What is State?</a><ul>
+<li><a class="reference internal" href="#thinking-about-state">Thinking About State</a></li>
+<li><a class="reference internal" href="#state-changes">State Changes</a></li>
+<li><a class="reference internal" href="#what-does-state-track">What Does State Track?</a></li>
+<li><a class="reference internal" href="#vanilla-jquery-state">Vanilla / jQuery State</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#react-state">React State</a><ul>
+<li><a class="reference internal" href="#core-react-concept-review">Core React Concept Review</a></li>
+<li><a class="reference internal" href="#what-is-react-state">What is React State?</a></li>
+<li><a class="reference internal" href="#initial-state">Initial State</a></li>
+<li><a class="reference internal" href="#react-constructor-function">React Constructor Function</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changing-state">Changing State</a><ul>
+<li><a class="reference internal" href="#id2">Changing State</a></li>
+<li><a class="reference internal" href="#react-events">React Events</a></li>
+<li><a class="reference internal" href="#broken-click">Broken Click</a></li>
+<li><a class="reference internal" href="#this-is-back"><code class="docutils literal notranslate"><span class="pre">this</span></code> is back</a></li>
+<li><a class="reference internal" href="#fixed-click">Fixed Click</a></li>
+<li><a class="reference internal" href="#full-example-click-rando">Full Example: Click Rando</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#state-vs-props">State vs. Props</a><ul>
+<li><a class="reference internal" href="#id3">State <em>vs</em> Props</a></li>
+<li><a class="reference internal" href="#state-as-props">State <em>as</em> Props</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    </div>
+    <div id="page-content">
+        
+  <div class="section" id="react-state-i">
+<h1>React State I</h1>
+<div class="section" id="goals">
+<h2>Goals</h2>
+<div class="section" id="id1">
+<div class="docutils container">
+<ul class="simple">
+<li>Understand the concept of state in web applications</li>
+<li>Learn how to model state in React</li>
+<li>Use events to trigger state changes</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="what-is-state">
+<h2>What is State?</h2>
+<div class="section" id="thinking-about-state">
+<h3>Thinking About State</h3>
+<p>In any sufficiently advanced web application, the user interface has to be stateful.</p>
+<div class="docutils container">
+<ul class="simple">
+<li>logged-in users see a different screen than logged-out users</li>
+<li>clicking “edit profile” opens up a modal (pop-up) window</li>
+<li>sections of a website can expand or collapse, for instance clicking “read more”</li>
+</ul>
+</div>
+<div class="docutils container">
+<p>The state of the client interface (frontend) is not always directly tied to state on the server.</p>
+</div>
+<div class="docutils container">
+<p>Why would the server need to know if a modal is open?</p>
+</div>
+</div>
+<div class="section" id="state-changes">
+<h3>State Changes</h3>
+<p>State is designed to constantly change in response to events.</p>
+<div class="docutils container">
+<p>A great way to think about state is to think of games, for instance chess. At any point in time, the board is in a complex state.</p>
+</div>
+<div class="docutils container">
+<a class="reference internal image-reference" href="_images/chess.gif"><img alt="_images/chess.gif" src="_images/chess.gif" style="width: 30%;" /></a>
+</div>
+<div class="docutils container">
+<p>Every new move represents a single discrete state change.</p>
+</div>
+</div>
+<div class="section" id="what-does-state-track">
+<h3>What Does State Track?</h3>
+<div class="docutils container">
+<p>There are two types of things state on the client/frontend keeps track of:</p>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li><cite>UI logic</cite> - the changing state of the interface e.g., there is a modal open right now because I’m editing my profile</li>
+<li><cite>business logic</cite> - the changing state of data e.g., in my inbox, messages are either read or unread, and this in turn affects how they display.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="vanilla-jquery-state">
+<h3>Vanilla / jQuery State</h3>
+<p>The way we kept track of state with jQuery was by selecting DOM elements and seeing if they were displayed/hidden, or if they had certain styles or attributes.</p>
+<div class="docutils container">
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// getting a text input value</span>
+<span class="kd">var</span> <span class="nx">firstName</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#firstNameInput&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+
+<span class="c1">// setting a text input value</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#firstNameInput&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;Michael&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<p>In other words, we were inferring the state of the application from the DOM itself.</p>
+</div>
+<div class="docutils container">
+<p>React is going to do the opposite!</p>
+</div>
+</div>
+</div>
+<div class="section" id="react-state">
+<h2>React State</h2>
+<div class="section" id="core-react-concept-review">
+<h3>Core React Concept Review</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>component<ul>
+<li>building block of React</li>
+<li>combines logic (JS) and presentation (JSX)</li>
+</ul>
+</li>
+<li>prop<ul>
+<li>data passed to a component <em>(or found via defaults)</em></li>
+<li>immutable; component cannot change its own props</li>
+</ul>
+</li>
+<li>state<ul>
+<li>internal data specific to a component</li>
+<li>data that changes over time!</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="what-is-react-state">
+<h3>What is React State?</h3>
+<div class="docutils container">
+<p>In React, state is an instance attribute on a component.</p>
+</div>
+<div class="docutils container">
+<p>It’s always an object (POJO), since you’ll want to keep track of several keys/values.</p>
+</div>
+<div class="docutils container">
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// what is the current state of my component?</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">);</span>
+
+<span class="p">{</span>
+  <span class="nx">playerName</span><span class="o">:</span> <span class="s2">&quot;Whiskey&quot;</span><span class="p">,</span>
+  <span class="nx">score</span><span class="o">:</span> <span class="mi">100</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="initial-state">
+<h3>Initial State</h3>
+<p>State should be initialized as soon as the component is created.</p>
+<div class="docutils container">
+<p>So we set it in the constructor function:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">ClickCount</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">numClicks</span><span class="o">:</span> <span class="mi">0</span>  <span class="c1">// start at zero clicks</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="react-constructor-function">
+<h3>React Constructor Function</h3>
+<p>If your component is stateless, you can omit the constructor function.</p>
+<div class="docutils container">
+<p>If you are building a component with state, you need a standard React constructor</p>
+</div>
+<div class="docutils container">
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="cm">/* values we want to track */</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li><cite>constructor</cite> takes one argument, <cite>props</cite></li>
+<li>You must call <code class="docutils literal notranslate"><span class="pre">super(props)</span></code> at start of constructor, which “registers” your class as a React <cite>Component</cite></li>
+<li>Inside the instance methods, you can refer to <code class="docutils literal notranslate"><span class="pre">this.state</span></code> just like you did <code class="docutils literal notranslate"><span class="pre">this.props</span></code></li>
+</ul>
+</div>
+<div class="admonition note">
+<p>(Advanced) ESNext Class Fields Syntax</p>
+<p>State can be defined using the <a class="reference external" href="https://github.com/tc39/proposal-class-fields">new public fields syntax</a>, which is going to be added to a future version of JavaScript (ES2019 or ES2020):</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">ClickCount</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">numClicks</span><span class="o">:</span> <span class="mi">0</span> <span class="p">};</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notice that it is <cite>state</cite>, not <cite>this.state</cite>, when done like this.</p>
+<p>You may need to update your linter if you choose to use this syntax:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm install --global babel-eslint  <span class="c1"># global add-on for eslint</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper last docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">~/.eslintrc.json</span></div>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// add &quot;parser&quot;: &quot;babel-eslint&quot; to your linter config:</span>
+<span class="p">{</span>
+  <span class="c1">// ...other settings</span>
+  <span class="s2">&quot;parser&quot;</span><span class="o">:</span> <span class="s2">&quot;babel-eslint&quot;</span><span class="p">,</span>
+  <span class="c1">// ...other settings</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="example">
+<h3>Example</h3>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">demo/basicExample.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Game</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">player</span><span class="p">:</span> <span class="s">&#39;Whiskey&#39;</span><span class="p">,</span>
+      <span class="nx">score</span><span class="p">:</span> <span class="m">0</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Battleship<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Current Player: <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">player</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Score: <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">score</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// end</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="changing-state">
+<h2>Changing State</h2>
+<div class="section" id="id2">
+<div class="docutils container">
+<p><cite>this.setState()</cite> is the built-in React method of changing a component’s state.</p>
+</div>
+<div class="docutils container">
+<p><code class="docutils literal notranslate"><span class="pre">this.setState({</span> <span class="pre">playerName:</span> <span class="pre">&quot;Matt&quot;,</span> <span class="pre">score:</span> <span class="pre">0</span> <span class="pre">})</span></code></p>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>Can call in any instance method except the constructor</li>
+<li>Takes an object describing the state changes</li>
+<li>Patches state object — keys that you didn’t specify don’t change</li>
+<li>Asynchronous!<ul>
+<li>The component state will <em>eventually</em> update.</li>
+<li>React controls when the state will actually change, for performance reasons.</li>
+</ul>
+</li>
+<li>Components re-render when their state changes</li>
+</ul>
+</div>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">demo/click-me/src/Rando.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Rando</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">num</span><span class="p">:</span> <span class="m">0</span> <span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">makeTimer</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="nx">makeTimer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">setInterval</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="hll">      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+</span><span class="hll">        <span class="nx">num</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">maxNum</span><span class="p">)</span>
+</span><span class="hll">      <span class="p">});</span>
+</span>    <span class="p">},</span> <span class="m">1000</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Rando: <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">num</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="react-events">
+<h3>React Events</h3>
+<div class="docutils container">
+<p>State most commonly changes in direct response to some event.</p>
+</div>
+<div class="docutils container">
+<p>In React, every JSX element has built-in attributes representing every kind of browser event.</p>
+</div>
+<div class="docutils container">
+<p>They are camel-cased, like <cite>onClick</cite>, and take callback functions as event listeners.</p>
+</div>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s">&#39;You clicked me!&#39;</span><span class="p">);</span> <span class="p">}</span> <span class="p">}&gt;</span>
+  Click Me!
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p>(Advanced) React Events</p>
+<p>React Events are a bit of an abstraction on top of regular browser events.</p>
+<p>They’re called <a class="reference external" href="https://reactjs.org/docs/events.html#overview">synthetic events</a>, but in practice they behave the same and you don’t have to worry about the abstraction.</p>
+<p class="last">Check out the React documentation for all types of <a class="reference external" href="https://reactjs.org/docs/events.html#supported-events">supported events</a>.</p>
+</div>
+</div>
+<div class="section" id="broken-click">
+<h3>Broken Click</h3>
+<div class="docutils container">
+<p>If we’re updating state in response to an event, we’ll have to call a method with <code class="docutils literal notranslate"><span class="pre">this.setState()</span></code>:</p>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">demo/click-me/src/BrokenClick.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">BrokenClick</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">clicked</span><span class="p">:</span> <span class="k">false</span> <span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="nx">handleClick</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">clicked</span><span class="p">:</span> <span class="k">true</span> <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>The Button is 
+          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">clicked</span> <span class="p">?</span> <span class="s">&#39;clicked&#39;</span> <span class="p">:</span> <span class="s">&#39;not clicked&#39;</span><span class="p">}</span>
+        <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">}&gt;</span>Broken<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// end</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="this-is-back">
+<h3><code class="docutils literal notranslate"><span class="pre">this</span></code> is back</h3>
+<div class="docutils container">
+<p>But <cite>this</cite> is undefined!</p>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li><em>Who</em> is calling <cite>handleClick</cite> for us?<ul>
+<li>React is, on click</li>
+</ul>
+</li>
+<li><em>What</em> is it calling it on?<ul>
+<li>🤷 it doesn’t remember to call it on our instance</li>
+<li>The method was called “out of context”</li>
+</ul>
+</li>
+<li><em>What</em> do we do?<ul>
+<li><code class="docutils literal notranslate"><span class="pre">.bind()</span></code> it!</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="fixed-click">
+<h3>Fixed Click</h3>
+<div class="docutils container">
+<p>We’ll fix the situation by binding our instance methods in the constructor.</p>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">demo/click-me/src/FixedClick.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">FixedClick</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">clicked</span><span class="p">:</span> <span class="k">false</span> <span class="p">};</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+
+  <span class="nx">handleClick</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">clicked</span><span class="p">:</span> <span class="k">true</span> <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>The Button is 
+          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">clicked</span> <span class="p">?</span> <span class="s">&#39;clicked&#39;</span> <span class="p">:</span> <span class="s">&#39;not clicked&#39;</span><span class="p">}</span>
+        <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">}&gt;</span>Fixed<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// end</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="full-example-click-rando">
+<h3>Full Example: Click Rando</h3>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">demo/click-me/src/ClickRando.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">ClickRando</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">num</span><span class="p">:</span> <span class="m">0</span> <span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">setRandom</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+      <span class="nx">num</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">maxNum</span><span class="p">)</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">handleClick</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setRandom</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">}&gt;</span>
+          Click Rando: <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">num</span><span class="p">}</span>
+        <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// end</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="state-vs-props">
+<h2>State vs. Props</h2>
+<div class="section" id="id3">
+<h3>State <em>vs</em> Props</h3>
+<div class="docutils container">
+<p><cite>State</cite> and <cite>Props</cite> are the most important concepts in React (after knowing what a “component” is).</p>
+</div>
+<div class="docutils container">
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="21%" />
+<col width="16%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">term</th>
+<th class="head">structure</th>
+<th class="head">mutable</th>
+<th class="head">purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>state</td>
+<td>POJO <code class="docutils literal notranslate"><span class="pre">{}</span></code></td>
+<td>yes</td>
+<td>stores changing component data</td>
+</tr>
+<tr class="row-odd"><td>props</td>
+<td>POJO <code class="docutils literal notranslate"><span class="pre">{}</span></code></td>
+<td>no</td>
+<td>stores component configuration</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="state-as-props">
+<h3>State <em>as</em> Props</h3>
+<div class="docutils container">
+<p>A common pattern we will see over and over again is a stateful (“smart”) parent component passing down its state values as props to stateless (“dumb”) child components.</p>
+</div>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">CounterParent</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span><span class="nx">count</span><span class="p">:</span> <span class="m">5</span><span class="p">};</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// passing down parent state as a prop to the child</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">CounterChild</span> <span class="na">count</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">count</span><span class="p">}</span> <span class="p">/&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<p>This idea is generalized in React as <cite>“downward data flow”</cite>. It means that components get simpler as you go down the component hierarchy, and parents tend to be more stateful than their children.</p>
+</div>
+<div class="admonition note">
+<p>Further Reading</p>
+<p>Check out <a class="reference external" href="https://reactjs.org/docs/faq-state.html">the React docs</a>.</p>
+<p>They link to two great resources to help further your understanding:</p>
+<ul class="last simple">
+<li><a class="reference external" href="https://github.com/uberVU/react-guide/blob/master/props-vs-state.md">Props vs State</a>.</li>
+<li><a class="reference external" href="http://lucybain.com/blog/2016/react-state-vs-pros/">ReactJS: Props vs. State</a>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="_static/jquery.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<script type="text/javascript" src="_static/language_data.js"></script> 
+</body>
+</html>

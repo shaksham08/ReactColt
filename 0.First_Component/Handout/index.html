@@ -1,0 +1,808 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>ReactJS</title>
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/handouts-sphinx.css"/>
+
+    
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Inconsolata:400,700'
+          rel='stylesheet' type='text/css'>
+    
+</head>
+<body>
+<div id="page-wrapper">
+    <div id="page-sidebar">
+        <header>
+            <p class="project">Demo</p>
+
+            <p class="title">ReactJS</p>
+
+            <p class="backlink"><a href=""> &laquo; Back to Homepage</a></p>
+
+        </header>
+        <div id="toc">
+            <ul>
+<li><a class="reference internal" href="#">ReactJS</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a><ul>
+<li><a class="reference internal" href="#id1">Goals</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#front-end-frameworks">Front End Frameworks</a><ul>
+<li><a class="reference internal" href="#id2">Front End Frameworks</a></li>
+<li><a class="reference internal" href="#popular-front-end-frameworks">Popular Front End Frameworks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#react">React</a><ul>
+<li><a class="reference internal" href="#id3">React</a></li>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#components">Components</a><ul>
+<li><a class="reference internal" href="#id4">Components</a></li>
+<li><a class="reference internal" href="#demo-hello">Demo: Hello</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#jsx">JSX</a><ul>
+<li><a class="reference internal" href="#id5">JSX</a></li>
+<li><a class="reference internal" href="#using-jsx">Using JSX</a></li>
+<li><a class="reference internal" href="#transpiling-jsx-in-browser">Transpiling JSX in Browser</a></li>
+<li><a class="reference internal" href="#serving-demo">Serving Demo</a></li>
+<li><a class="reference internal" href="#jsx-rules">JSX Rules</a></li>
+<li><a class="reference internal" href="#what-jsx-looks-like-when-transpiled">What JSX looks like when transpiled</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#layout">Layout</a><ul>
+<li><a class="reference internal" href="#id6">Layout</a></li>
+<li><a class="reference internal" href="#app">App</a></li>
+<li><a class="reference internal" href="#order-of-script-tags">Order of Script Tags</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#properties">Properties</a><ul>
+<li><a class="reference internal" href="#id7">Properties</a></li>
+<li><a class="reference internal" href="#demo-hello-2">Demo: Hello-2</a></li>
+<li><a class="reference internal" href="#reusing-component">Reusing Component</a></li>
+<li><a class="reference internal" href="#properties-requirements">Properties Requirements</a></li>
+<li><a class="reference internal" href="#using-properties">Using Properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conditionals-in-jsx">Conditionals in JSX</a><ul>
+<li><a class="reference internal" href="#id8">Conditionals in JSX</a></li>
+<li><a class="reference internal" href="#ternary">Ternary</a></li>
+<li><a class="reference internal" href="#demo-slots">Demo: Slots!</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#looping-in-jsx">Looping in JSX</a><ul>
+<li><a class="reference internal" href="#id9">Looping in JSX</a></li>
+<li><a class="reference internal" href="#demo-friends">Demo: Friends!</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#default-props">Default Props</a><ul>
+<li><a class="reference internal" href="#id10">Default Props</a></li>
+<li><a class="reference internal" href="#demo-hello-3">Demo: Hello-3</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#styling-react">Styling React</a><ul>
+<li><a class="reference internal" href="#id11">Styling React</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#debugging-react">Debugging React</a><ul>
+<li><a class="reference internal" href="#id12">Debugging React</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    </div>
+    <div id="page-content">
+        
+  <div class="section" id="reactjs">
+<h1>ReactJS</h1>
+<div class="section" id="goals">
+<h2>Goals</h2>
+<div class="section" id="id1">
+<div class="docutils container">
+<ul class="simple">
+<li>What is React? History &amp; Goals</li>
+<li>Components</li>
+<li>Play with a Real Component</li>
+<li>Write Your Own Component!</li>
+<li>JSX and Babel (briefly)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="front-end-frameworks">
+<h2>Front End Frameworks</h2>
+<div class="section" id="id2">
+<div class="docutils container">
+<ul class="simple">
+<li>Larger JS libraries</li>
+<li>Provide “blueprint” for apps</li>
+<li>“Opinionated”<ul>
+<li>“This is how you should design a JS app”</li>
+</ul>
+</li>
+<li>Often: provide for code re-use</li>
+<li>Often: provide templating of HTML</li>
+</ul>
+</div>
+</div>
+<div class="section" id="popular-front-end-frameworks">
+<h3>Popular Front End Frameworks</h3>
+<ul class="simple">
+<li>Angular</li>
+<li>Ember</li>
+<li>Vue</li>
+<li>React</li>
+</ul>
+<p>There are many others, but these are among the most popular.</p>
+<p>There are differences between them but they largely share lots of
+common ideas and after learning one framework, you’ll be in a better
+position to learn about others.</p>
+</div>
+</div>
+<div class="section" id="react">
+<h2>React</h2>
+<div class="section" id="id3">
+<a class="noprint reference internal image-reference" href="_images/react.svg"><img alt="_images/react.svg" class="noprint" src="_images/react.svg" width="25%" /></a>
+<p>Popular, powerful front-end framework.</p>
+<p>Developed by and sponsored by Facebook.</p>
+<ul class="simple">
+<li>Make it easy to make reusable “view components”<ul>
+<li>These “encapsulate” logic and HTML into a class</li>
+</ul>
+</li>
+<li>Often make it easier to build modular applications</li>
+</ul>
+</div>
+<div class="section" id="goal">
+<h3>Goal</h3>
+<a class="reference internal image-reference" href="_images/components.jpg"><img alt="_images/components.jpg" src="_images/components.jpg" style="width: 70%;" /></a>
+</div>
+</div>
+<div class="section" id="components">
+<h2>Components</h2>
+<div class="section" id="id4">
+<div class="compare docutils container">
+<div class="docutils container">
+<ul class="simple">
+<li>The building blocks of React</li>
+<li>Pieces of UI &amp; view logic</li>
+<li>Classes that know how to render themselves into HTML</li>
+</ul>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">(a bit like this)</span></div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">Dog</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">color</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="sb">`&lt;p&gt;</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">&lt;/p&gt;`</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="demo-hello">
+<h3>Demo: Hello</h3>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">demo/hello/index.html</span></div>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Demo: Hello<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="hll"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;root&quot;</span><span class="p">&gt;</span> <span class="c">&lt;!-- component will go in this div --&gt;</span> <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span>
+  <span class="s">&quot;https://unpkg.com/react/umd/react.development.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span>
+  <span class="s">&quot;https://unpkg.com/react-dom/umd/react-dom.development.js&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/babel-standalone&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;index.js&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/jsx&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="compare docutils container">
+<div class="docutils container">
+<p>A component is a React class <span class="raw-reveal"><br></span> with a <cite>render</cite> method:</p>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">demo/hello/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi Everyone!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<p>We add our component to HTML with <cite>ReactDOM.render</cite>:</p>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">demo/hello/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nt">Hello</span> <span class="p">/&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="jsx">
+<h2>JSX</h2>
+<div class="section" id="id5">
+<div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">demo/hello/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<span class="hll">    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi Everyone!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;;</span>
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="hll"><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nt">Hello</span> <span class="p">/&gt;,</span>
+</span>  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<p>What’s this HTML in our JavaScript?</p>
+<p>JSX is like HTML embedded in JavaScript:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">score</span> <span class="o">&gt;</span> <span class="m">100</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>You win!<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="docutils container">
+<p>You can also “re-embed” JavaScript in JSX:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">score</span> <span class="o">&gt;</span> <span class="m">100</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>You win, <span class="p">{</span> <span class="nx">playerName</span> <span class="p">}&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>(looks for JavaScript variable <cite>playerName</cite>)</p>
+</div>
+</div>
+<div class="section" id="using-jsx">
+<h3>Using JSX</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>JSX isn’t legal JavaScript<ul>
+<li>It has to be “transpiled” to JavaScript</li>
+</ul>
+</li>
+<li>You can do this with <a class="reference external" href="https://babeljs.io">Babel</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="transpiling-jsx-in-browser">
+<h3>Transpiling JSX in Browser</h3>
+<div class="docutils container">
+<ul>
+<li><p class="first">Easy for getting started — nothing to install!</p>
+</li>
+<li><p class="first">Load <cite>Babel</cite> standalone library:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span>
+  <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/babel-standalone&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Mark JSX files with <code class="docutils literal notranslate"><span class="pre">type=&quot;text/jsx&quot;</span></code>:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;index.js&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/jsx&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Read handouts to learn how to do on command line</p>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p>Use Babel on Command Line</p>
+<p>While it’s convenient to transpile JSX into JavaScript directly in the
+browser like this, it’s not suitable for real-world deployment: it takes a
+second to do the conversion, leading to a poor experience for users.</p>
+<p>Better for deployment is to convert JSX to JavaScript once, via the command
+line, and then save and use the converted JS directly.</p>
+<p>To do this:</p>
+<ol class="last arabic">
+<li><p class="first">You need to install <a class="reference external" href="http://npmjs.com">npm</a></p>
+</li>
+<li><p class="first">Then use <cite>npm</cite> to install Babel and settings for React:</p>
+<pre class="console literal-block">
+   $ <span class="cmd">npm install &#64;babel/core &#64;babel/cli &#64;babel/preset-react</span>
+</pre>
+</li>
+<li><p class="first">To convert a file:</p>
+<pre class="console literal-block">
+$ <span class="cmd">node_modules/&#64;babel/cli/bin/babel.js --presets &#64;babel/react</span>
+     <span class="cmd">file.jsx &gt; file.js</span>
+</pre>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="serving-demo">
+<h3>Serving Demo</h3>
+<p>For security reasons, Babel won’t work with <cite>file://</cite> scripts</p>
+<p>Run files under a simple static server:</p>
+<pre class="console literal-block">
+$ <span class="cmd">python3 -m http.server</span>
+</pre>
+<p>Then can visit at <em>http://localhost:8000/yourfile.html</em></p>
+</div>
+<div class="section" id="jsx-rules">
+<h3>JSX Rules</h3>
+<p>JSX is more strict than HTML — elements must either:</p>
+<ul class="simple">
+<li>Have an explicit closing tag: <code class="docutils literal notranslate"><span class="pre">&lt;b&gt;</span> <span class="pre">...</span> <span class="pre">&lt;/b&gt;</span></code></li>
+<li>Be explicitly self-closed: <code class="docutils literal notranslate"><span class="pre">&lt;input</span> <span class="pre">name=&quot;msg&quot;</span> <span class="pre">/&gt;</span></code><ul>
+<li>Cannot leave off that <code class="docutils literal notranslate"><span class="pre">/</span></code> or will get syntax error</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="what-jsx-looks-like-when-transpiled">
+<h3>What JSX looks like when transpiled</h3>
+<p><a class="reference external" href="https://babeljs.io/repl">Let’s take a look!</a></p>
+</div>
+</div>
+<div class="section" id="layout">
+<h2>Layout</h2>
+<div class="section" id="id6">
+<div class="compare docutils container">
+<div class="docutils container">
+<p>Our demo had <cite>Hello</cite> component in same <cite>index.js</cite> as placement code:</p>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-text">demo/hello/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi Everyone!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nt">Hello</span> <span class="p">/&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<p>You’ll often have &gt;1 component, <span class="raw-reveal"><br></span>
+it’s good to keep in separate files.</p>
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nt">Hello</span> <span class="p">/&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<p>Convention: 1 component per file, <span class="raw-reveal"><br></span>
+with component name as filename:</p>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-text">Hello.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi Everyone!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="app">
+<h3>App</h3>
+<p>It’s conventional for the top-level component to be named <cite>App</cite>.</p>
+<p>This renders the other components:</p>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-text">App.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">App</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Greetings!<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">Hello</span><span class="p">/&gt;</span>
+        <span class="p">&lt;</span><span class="nt">Goodbye</span><span class="p">/&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>This way, readers of code know where to start</li>
+<li>This is usually the only thing rendered in <cite>index.js</cite></li>
+</ul>
+</div>
+</div>
+<div class="section" id="order-of-script-tags">
+<h3>Order of Script Tags</h3>
+<div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-text">demo/hello-2/index.html</span></div>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span>
+  <span class="s">&quot;http://unpkg.com/react/umd/react.development.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span>
+  <span class="s">&quot;http://unpkg.com/react-dom/umd/react-dom.development.js&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;http://unpkg.com/babel-standalone&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+
+<span class="hll"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;Hello.js&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/jsx&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span class="hll"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;index.js&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/jsx&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></pre></div>
+</div>
+</div>
+<div class="docutils container">
+<p>Make sure any components you need in a file are loaded by a previous <cite>script</cite> tag. (We’ll learn about a better way to manage imports soon.)</p>
+</div>
+</div>
+</div>
+<div class="section" id="properties">
+<h2>Properties</h2>
+<div class="section" id="id7">
+<p><strong>aka. Props</strong></p>
+<p>A useful component is a reusable one.</p>
+<p>This often means making it configurable or customizable.</p>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id23">
+<div class="code-block-caption"><span class="caption-text">Hello.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi Everyone!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<p>It would be better if we could <em>configure</em> our greeting.</p>
+</div>
+<p>Our greeting will be <em>Hi ______ from ______</em>.</p>
+<div class="docutils container">
+<p>Let’s make two “properties”:</p>
+<dl class="docutils">
+<dt>to</dt>
+<dd>Who we are greeting</dd>
+<dt>from</dt>
+<dd>Who our greeting is from</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="demo-hello-2">
+<h3>Demo: Hello-2</h3>
+<div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-text">demo/hello-2/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="hll">  <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;me&quot;</span> <span class="na">from</span><span class="o">=</span><span class="s">&quot;you&quot;</span> <span class="p">/&gt;,</span>
+</span>  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>Set properties on element; get using <cite>this.props.propName</cite>.</p>
+<div class="literal-block-wrapper docutils container" id="id25">
+<div class="code-block-caption"><span class="caption-text">demo/hello-2/Hello.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Secret Message: <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="hll">        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">to</span><span class="p">}</span> from <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">from</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span>      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="reusing-component">
+<h3>Reusing Component</h3>
+<p>You can use a component many times:</p>
+<div class="compare docutils container">
+<div class="docutils container">
+<p>Adding to different places:</p>
+<div class="literal-block-wrapper docutils container" id="id26">
+<div class="code-block-caption"><span class="caption-text">index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;Kay&quot;</span> <span class="na">from</span><span class="o">=</span><span class="s">&quot;Kim&quot;</span> <span class="p">/&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;me&quot;</span> <span class="na">from</span><span class="o">=</span><span class="s">&quot;you&quot;</span> <span class="p">/&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;also&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<p>Adding several at once:</p>
+<div class="literal-block-wrapper docutils container" id="id27">
+<div class="code-block-caption"><span class="caption-text">index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;Kay&quot;</span> <span class="na">from</span><span class="o">=</span><span class="s">&quot;Kim&quot;</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;me&quot;</span> <span class="na">from</span><span class="o">=</span><span class="s">&quot;you&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<p>Note <cite>div</cite> wrapper — JSX often renders a <em>single top-level element.</em></p>
+</div>
+<div class="admonition note">
+<p><strong>Rendering Multiple Top-Level Elements</strong></p>
+<p class="last">Prior to React 16, every component had to render a single top-level element.
+In newer versions of React, it’s possible to render siblings at the top level,
+but the syntax isn’t quite as clean. You’re welcome to look into this if
+you’re curious, but all of our Component files will render a single element at
+the top of their hierarchy.</p>
+</div>
+</div>
+<div class="section" id="properties-requirements">
+<h3>Properties Requirements</h3>
+<div class="docutils container">
+<ul>
+<li><p class="first">Properties are for <em>configuring</em> your component</p>
+</li>
+<li><p class="first">Properties are immutable</p>
+</li>
+<li><p class="first">Properties can be strings:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">User</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;Jane&quot;</span> <span class="na">title</span><span class="o">=</span><span class="s">&quot;CEO&quot;</span> <span class="p">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">For other types, embed JS expression using the curly braces:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">User</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;Jane&quot;</span> <span class="na">salary</span><span class="o">=</span><span class="p">{</span> <span class="m">100000</span> <span class="p">}</span>
+    <span class="na">hobbies</span><span class="o">=</span><span class="p">{</span> <span class="p">[</span><span class="s">&quot;bridge&quot;</span><span class="p">,</span> <span class="s">&quot;reading&quot;</span><span class="p">,</span> <span class="s">&quot;tea&quot;</span><span class="p">]</span> <span class="p">}</span> <span class="p">/&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="using-properties">
+<h3>Using Properties</h3>
+<ul class="simple">
+<li>Get to properties inside class with <cite>this.props.propertyName</cite></li>
+<li>Properties are immutable — cannot change!</li>
+</ul>
+</div>
+</div>
+<div class="section" id="conditionals-in-jsx">
+<h2>Conditionals in JSX</h2>
+<div class="section" id="id8">
+<p>The <cite>render()</cite> method can return either:</p>
+<ul class="simple">
+<li>a <strong>single valid</strong> DOM object (<code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">&lt;div&gt;...&lt;/div&gt;</span></code>)</li>
+<li>an array of DOM objects (but don’t do this yet!)</li>
+<li><cite>null</cite> (<cite>undefined</cite> is not ok!)</li>
+</ul>
+<div class="docutils container">
+<p>You can put whatever logic you want in your <cite>render()</cite> method for this:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Lottery</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">winner</span><span class="p">)</span>
+      <span class="k">return</span> <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>You win!<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;;</span>
+    <span class="k">else</span>
+      <span class="k">return</span> <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>You lose!<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ternary">
+<h3>Ternary</h3>
+<p>It’s very common in <cite>render()</cite> to use ternary operators:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Lottery</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>You <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">winner</span> <span class="p">?</span> <span class="s">&quot;win&quot;</span> <span class="p">:</span> <span class="s">&quot;lose&quot;</span><span class="p">}</span>!<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="demo-slots">
+<h3>Demo: Slots!</h3>
+<div class="literal-block-wrapper docutils container" id="id28">
+<div class="code-block-caption"><span class="caption-text">demo/slots/Machine.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Machine</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">s1</span><span class="p">,</span> <span class="nx">s2</span><span class="p">,</span> <span class="nx">s3</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">winner</span> <span class="o">=</span> <span class="p">(</span><span class="nx">s1</span> <span class="o">===</span> <span class="nx">s2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">s2</span> <span class="o">===</span> <span class="nx">s3</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;Machine&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;{</span><span class="nx">s1</span><span class="p">}&lt;/</span><span class="nt">b</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;{</span><span class="nx">s2</span><span class="p">}&lt;/</span><span class="nt">b</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;{</span><span class="nx">s3</span><span class="p">}&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+<span class="hll">        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>You <span class="p">{</span><span class="nx">winner</span> <span class="p">?</span> <span class="s">&quot;win!&quot;</span> <span class="p">:</span> <span class="s">&quot;lose!&quot;</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span>      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id29">
+<div class="code-block-caption"><span class="caption-text">demo/slots/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="p">&lt;</span><span class="nt">Machine</span> <span class="na">s1</span><span class="o">=</span><span class="s">&quot;🍇&quot; </span>s<span class="na">2=</span><span class="o">&quot;</span><span class="s">🍇&quot; s</span>3<span class="na">=&quot;</span><span class="o">🍇</span><span class="s">&quot; /&gt;</span>,<span class="p"></span>
+<span class="p">  </span>doc<span class="nx">ument.ge</span><span class="p">t</span><span class="nx">ElementById(&quot;r</span><span class="p">o</span><span class="s">ot&quot;)</span>
+<span class="s">)</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="looping-in-jsx">
+<h2>Looping in JSX</h2>
+<div class="section" id="id9">
+<p>It’s common to use <cite>array.map(fn)</cite> to output loops in JSX:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Messages</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">msgs</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">{</span><span class="nx">id</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span> <span class="nx">text</span><span class="p">:</span> <span class="s">&quot;Greetings!&quot;</span><span class="p">},</span>
+      <span class="p">{</span><span class="nx">id</span><span class="p">:</span> <span class="m">2</span><span class="p">,</span> <span class="nx">text</span><span class="p">:</span> <span class="s">&quot;Goodbye!&quot;</span><span class="p">},</span>
+    <span class="p">];</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">{</span> <span class="nx">msgs</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">m</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;{</span><span class="nx">m</span><span class="p">.</span><span class="nx">text</span><span class="p">}&lt;/</span><span class="nt">li</span><span class="p">&gt;)</span> <span class="p">}</span>
+      <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="demo-friends">
+<h3>Demo: Friends!</h3>
+<div class="literal-block-wrapper docutils container" id="id30">
+<div class="code-block-caption"><span class="caption-text">demo/friends/Friend.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Friend</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">hobbies</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="hll">          <span class="p">{</span><span class="nx">hobbies</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">h</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;{</span><span class="nx">h</span><span class="p">}&lt;/</span><span class="nt">li</span><span class="p">&gt;)}</span>
+</span>        <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id31">
+<div class="code-block-caption"><span class="caption-text">demo/friends/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Friend</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;Jessica&quot;</span> <span class="na">hobbies</span><span class="o">=</span><span class="p">{[</span><span class="s">&quot;Tea&quot;</span><span class="p">,</span> <span class="s">&quot;Frisbee&quot;</span><span class="p">]}</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Friend</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;Jake&quot;</span> <span class="na">hobbies</span><span class="o">=</span><span class="p">{[</span><span class="s">&quot;Chess&quot;</span><span class="p">,</span> <span class="s">&quot;Cats&quot;</span><span class="p">]}</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="default-props">
+<h2>Default Props</h2>
+<div class="section" id="id10">
+<p>Components can specify default values for missing props</p>
+</div>
+<div class="section" id="demo-hello-3">
+<h3>Demo: Hello-3</h3>
+<div class="literal-block-wrapper docutils container" id="id32">
+<div class="code-block-caption"><span class="caption-text">demo/hello-3/Hello.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Hello</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+<span class="hll">  <span class="nx">static</span> <span class="nx">defaultProps</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="hll">    <span class="nx">from</span><span class="p">:</span> <span class="s">&quot;Joel&quot;</span><span class="p">,</span>
+</span><span class="hll">  <span class="p">};</span>
+</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hi <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">to</span><span class="p">}</span> from <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">from</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Set properties on element; get using <cite>this.props.propName</cite>.</p>
+<div class="literal-block-wrapper docutils container" id="id33">
+<div class="code-block-caption"><span class="caption-text">demo/hello-3/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;Students&quot;</span> <span class="na">from</span><span class="o">=</span><span class="s">&quot;Elie&quot;</span> <span class="p">/&gt;</span>
+<span class="hll">    <span class="p">&lt;</span><span class="nt">Hello</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;World&quot;</span> <span class="p">/&gt;</span>
+</span>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="styling-react">
+<h2>Styling React</h2>
+<div class="section" id="id11">
+<p>You can add CSS classes in JSX.</p>
+<p>However: since <cite>class</cite> is a reserved keyword in JS,
+spell it <cite>className</cite> in JSX:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Message</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;urgent&quot;</span><span class="p">&gt;</span>Emergency!<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can inline CSS styles, but now <cite>style</cite> takes a JS object:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Box</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">color</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">favoriteColor</span><span class="p">,</span>
+      <span class="nx">backgroundColor</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">otherColor</span><span class="p">,</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="p">&lt;</span><span class="nt">b</span> <span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">colors</span><span class="p">}&gt;{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">message</span><span class="p">}&lt;/</span><span class="nt">b</span><span class="p">&gt;;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="debugging-react">
+<h2>Debugging React</h2>
+<div class="section" id="id12">
+<p>Install <a class="reference external" href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en">React Developer Tools</a></p>
+</div>
+</div>
+</div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="_static/jquery.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<script type="text/javascript" src="_static/language_data.js"></script> 
+</body>
+</html>

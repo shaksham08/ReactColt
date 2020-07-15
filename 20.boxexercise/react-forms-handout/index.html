@@ -1,0 +1,483 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>React Forms</title>
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/handouts-sphinx.css"/>
+
+    
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Inconsolata:400,700'
+          rel='stylesheet' type='text/css'>
+    
+</head>
+<body>
+<div id="page-wrapper">
+    <div id="page-sidebar">
+        <header>
+            <p class="project">Demo</p>
+
+            <p class="title">React Forms</p>
+
+
+        </header>
+        <div id="toc">
+            <ul>
+<li><a class="reference internal" href="#">React Forms</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a><ul>
+<li><a class="reference internal" href="#id1">Goals</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#forms">Forms</a><ul>
+<li><a class="reference internal" href="#id2">Forms</a></li>
+<li><a class="reference internal" href="#thinking-about-state">Thinking About State</a></li>
+<li><a class="reference internal" href="#controlled-components">Controlled Components</a></li>
+<li><a class="reference internal" href="#one-source-of-truth">One Source of Truth</a></li>
+<li><a class="reference internal" href="#example-form-component">Example Form Component</a></li>
+<li><a class="reference internal" href="#how-the-controlled-form-works">How the Controlled Form Works</a></li>
+<li><a class="reference internal" href="#handlechange-method"><cite>handleChange</cite> Method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#handling-multiple-inputs">Handling Multiple Inputs</a><ul>
+<li><a class="reference internal" href="#es2015-review">ES2015 Review</a></li>
+<li><a class="reference internal" href="#computed-property-names">Computed Property Names</a></li>
+<li><a class="reference internal" href="#application-to-react-form-components">Application To React Form Components</a></li>
+<li><a class="reference internal" href="#id3">Handling Multiple Inputs</a></li>
+<li><a class="reference internal" href="#passing-data-up-to-a-parent-component">Passing Data Up to a Parent Component</a></li>
+<li><a class="reference internal" href="#shopping-list-example">Shopping List Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#keys-and-uuids">Keys and UUIDs</a><ul>
+<li><a class="reference internal" href="#using-uuid-for-unique-keys">Using UUID for Unique Keys</a></li>
+<li><a class="reference internal" href="#using-the-uuid-module">Using the UUID Module</a></li>
+<li><a class="reference internal" href="#uncontrolled-components">Uncontrolled components</a></li>
+<li><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#looking-ahead">Looking Ahead</a><ul>
+<li><a class="reference internal" href="#coming-up">Coming Up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    </div>
+    <div id="page-content">
+        
+  <div class="section" id="react-forms">
+<h1>React Forms</h1>
+<div class="section" id="goals">
+<h2>Goals</h2>
+<div class="section" id="id1">
+<div class="docutils container">
+<ul class="simple">
+<li>Build forms with React</li>
+<li>Understand what controlled components are</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="forms">
+<h2>Forms</h2>
+<div class="section" id="id2">
+<div class="docutils container">
+<ul class="simple">
+<li>HTML form elements work differently than other DOM elements in React<ul>
+<li>Form elements naturally keep some internal state.</li>
+<li>For example, this form in plain HTML accepts a single name:</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="docutils container">
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;fullname&quot;</span><span class="p">&gt;</span>Full Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;fullname&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Add!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="thinking-about-state">
+<h3>Thinking About State</h3>
+<div class="docutils container">
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;fullname&quot;</span><span class="p">&gt;</span>Full Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;fullname&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Add!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>It’s convenient to have a JS function that<ul>
+<li>handles the submission of the form <em>and</em></li>
+<li>has access to the data the user entered.</li>
+</ul>
+</li>
+<li>The technique to get this is <em>controlled components</em>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="controlled-components">
+<h3>Controlled Components</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>In HTML, form elements such as <cite>&lt;input&gt;</cite>, <cite>&lt;textarea&gt;</cite>, and <cite>&lt;select&gt;</cite> <span class="raw-reveal"><br></span>
+typically maintain their own state and update it based on user input.</li>
+<li>In React, mutable state is kept in the <cite>state</cite> of components, <span class="raw-reveal"><br></span>
+and only updated with <cite>setState()</cite>.</li>
+<li>How do we use React to control form input state?</li>
+</ul>
+</div>
+</div>
+<div class="section" id="one-source-of-truth">
+<h3>One Source of Truth</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>We make the React state be the “single source of truth”</li>
+<li>React controls:<ul>
+<li>What is <em>shown</em> (the value of the component)</li>
+<li>What happens the user types <em>(this gets kept in state)</em></li>
+</ul>
+</li>
+<li>Input elements controlled in this way are called “controlled components”.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="example-form-component">
+<h3>Example Form Component</h3>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NameForm</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+    <span class="c1">// default fullName is an empty string</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">fullName</span><span class="p">:</span> <span class="s">&#39;&#39;</span> <span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">handleSubmit</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something with form data</span>
+  <span class="p">}</span>
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// runs on every keystroke event</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">form</span> <span class="na">onSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleSubmit</span><span class="p">}&gt;</span>
+        <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;fullname&quot;</span><span class="p">&gt;</span>Full Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;fullname&quot;</span> <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">fullName</span><span class="p">}</span>
+          <span class="na">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
+        <span class="p">/&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Add!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-the-controlled-form-works">
+<h3>How the Controlled Form Works</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Since value attribute is set on element, displayed value will always be
+<cite>this.state.fullName</cite> — making the React state the source of truth.</li>
+<li>Since <cite>handleChange</cite> runs on every keystroke to update the React state,
+the displayed value will update as the user types.</li>
+<li>With a controlled component, every state mutation will have an associated
+handler function. This makes it easy to modify or validate user input.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="handlechange-method">
+<h3><cite>handleChange</cite> Method</h3>
+<p>Here is the method that updates state based on input.</p>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NameForm</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// runs on every keystroke</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+      <span class="nx">fullName</span><span class="p">:</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="handling-multiple-inputs">
+<h2>Handling Multiple Inputs</h2>
+<div class="section" id="es2015-review">
+<h3>ES2015 Review</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>ES2015 introduced a few object enhancements…</li>
+<li>This includes the ability to create objects with dynamic keys based on JavaScript expressions.</li>
+<li>The feature is called <cite>computed property names</cite>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="computed-property-names">
+<h3>Computed Property Names</h3>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">ES5</span></div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">catData</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="kd">var</span> <span class="nx">microchip</span> <span class="o">=</span> <span class="mi">1432345421</span>
+<span class="nx">catData</span><span class="p">[</span><span class="nx">microchip</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Blue Steele&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">ES2015</span></div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">microchip</span> <span class="o">=</span> <span class="mi">1432345421</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">catData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// propery computed inside the object literal</span>
+    <span class="p">[</span><span class="nx">microchip</span><span class="p">]</span><span class="o">:</span> <span class="s2">&quot;Blue Steele&quot;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="application-to-react-form-components">
+<h3>Application To React Form Components</h3>
+<p>Instead of making a separate <cite>onChange</cite> handler for every single input, <span class="raw-reveal"><br></span>
+we can make on generic function for multiple inputs!</p>
+</div>
+<div class="section" id="id3">
+<h3>Handling Multiple Inputs</h3>
+<p>To handle multiple controlled inputs, add the HTML <cite>name</cite> attribute to each JSX input element
+and <span class="raw-reveal"><br></span>
+let handler function decide the appropriate key in state to update based on <cite>event.target.name</cite>.</p>
+<div class="docutils container">
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">YourComponent</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+<span class="hll">      <span class="p">[</span><span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span><span class="o">:</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span>
+</span>    <span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>Using this method, the keys in state have to match the input <code class="docutils literal notranslate"><span class="pre">name</span></code> attributes exactly.</li>
+</ul>
+</div>
+<p>The state:</p>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">firstName</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nx">lastName</span><span class="p">:</span> <span class="s">&quot;&quot;</span> <span class="p">};</span>
+</pre></div>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">demo/name-form-demo/src/NameForm.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NameForm</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>  <span class="c1">// ...</span>
+<span class="hll">  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="p">[</span><span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]:</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span> <span class="p">});</span>
+</span><span class="hll">  <span class="p">}</span>
+</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="p">&lt;</span><span class="nt">form</span> <span class="na">onSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleSubmit</span><span class="p">}&gt;</span>
+
+          <span class="p">&lt;</span><span class="nt">label</span> <span class="na">htmlFor</span><span class="o">=</span><span class="s">&quot;firstName&quot;</span><span class="p">&gt;</span>First:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">input</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;firstName&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;firstName&quot;</span>
+                 <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">firstName</span><span class="p">}</span>
+<span class="hll">                 <span class="na">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span> <span class="p">/&gt;</span>
+</span>
+          <span class="p">&lt;</span><span class="nt">label</span> <span class="na">htmlFor</span><span class="o">=</span><span class="s">&quot;lastName&quot;</span><span class="p">&gt;</span>Last:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">input</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;lastName&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;lastName&quot;</span>
+                 <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">lastName</span><span class="p">}</span>
+<span class="hll">                 <span class="na">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span> <span class="p">/&gt;</span>
+</span>          <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Add a new person!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// end</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="passing-data-up-to-a-parent-component">
+<h3>Passing Data Up to a Parent Component</h3>
+<p>In React we generally have downward data flow. “Smart” parent components with simpler child components.</p>
+<div class="docutils container">
+<ul class="simple">
+<li>But it is common for form components to manage their own state…</li>
+<li>But the smarter parent component usually has a <cite>doSomethingOnSubmit</cite> method to update its state after the form submission…</li>
+<li>So what happens is the parent will pass its <cite>doSomethingOnSubmit</cite> method down as a prop to the child.</li>
+<li>The child component will call this method which will then update the parent’s state.</li>
+<li>The child is still appropriately “dumber”, all it knows is to pass its data into a function it was given.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="shopping-list-example">
+<h3>Shopping List Example</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Parent Component: ShoppingList (manages a list of shopping items)</li>
+<li>Child Component: NewListItemForm (a form to add a new shopping item to the list)</li>
+</ul>
+</div>
+<div class="compare docutils container">
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">demo/shopping-list/src/ShoppingList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">ShoppingList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="cm">/** Add new item object to cart. */</span>
+  <span class="nx">addItem</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">newItem</span> <span class="o">=</span> <span class="p">{</span> <span class="p">...</span><span class="nx">item</span><span class="p">,</span> <span class="nx">id</span><span class="p">:</span> <span class="nx">uuid</span><span class="p">()</span> <span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">state</span> <span class="o">=&gt;</span> <span class="p">({</span>
+      <span class="nx">items</span><span class="p">:</span> <span class="p">[...</span><span class="nx">state</span><span class="p">.</span><span class="nx">items</span><span class="p">,</span> <span class="nx">newItem</span><span class="p">]</span>
+    <span class="p">}));</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;ShoppingList&quot;</span><span class="p">&gt;</span>
+<span class="hll">      <span class="p">&lt;</span><span class="nt">NewListItemForm</span> <span class="na">addItem</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addItem</span><span class="p">}/&gt;</span>
+</span>      <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">renderItems</span><span class="p">()}</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+   <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">demo/shopping-list/src/NewListItemForm.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">NewListItemForm</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="cm">/** Send {name, quantity} to parent</span>
+<span class="cm">   *    &amp; clear form. */</span>
+
+  <span class="nx">handleSubmit</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">);</span>
+</span>    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">name</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nx">qty</span><span class="p">:</span> <span class="m">0</span> <span class="p">});</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="keys-and-uuids">
+<h2>Keys and UUIDs</h2>
+<div class="section" id="using-uuid-for-unique-keys">
+<h3>Using UUID for Unique Keys</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>We’ve seen that using an iteration index as a <cite>key</cite> prop is a bad idea</li>
+<li>No natural unique key? Use a library to create a <em>uuid</em></li>
+<li>Universally unique identifier (UUID) is a way to uniquely identify info</li>
+<li>Install it using <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">uuid</span></code></li>
+</ul>
+</div>
+</div>
+<div class="section" id="using-the-uuid-module">
+<h3>Using the UUID Module</h3>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">demo/shopping-list/src/ShoppingList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nx">uuid</span> <span class="nx">from</span> <span class="s">&#39;uuid/v4&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">demo/shopping-list/src/ShoppingList.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">ShoppingList</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">renderItems</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="hll">        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">items</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="p">(</span>
+</span>          <span class="p">&lt;</span><span class="nt">li</span> <span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}&gt;</span>
+            <span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>:<span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">qty</span><span class="p">}</span>
+          <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">))}</span>
+      <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="uncontrolled-components">
+<h3>Uncontrolled components</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>You will almost never use it</li>
+<li>Some inputs and external libraries require it.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="validation">
+<h3>Validation</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Useful for UI</li>
+<li><strong>Not an alternative to server side validation</strong></li>
+<li><a class="reference external" href="https://jaredpalmer.com/formik/docs/overview">Formik</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="looking-ahead">
+<h2>Looking Ahead</h2>
+<div class="section" id="coming-up">
+<h3>Coming Up</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Lifecycle methods</li>
+<li>AJAX with React</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="_static/jquery.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<script type="text/javascript" src="_static/language_data.js"></script> 
+</body>
+</html>

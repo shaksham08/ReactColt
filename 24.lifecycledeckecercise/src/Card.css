@@ -1,0 +1,9 @@
+.card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.deck-cardarea {
+  margin-top: 80px;
+}

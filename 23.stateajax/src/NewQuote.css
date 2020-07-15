@@ -1,0 +1,71 @@
+/*
+=====
+DEPENDENCES
+=====
+*/
+
+@import url("https://fonts.googleapis.com/css?family=Baloo+Tamma&display=swap");
+
+/*
+=====
+CORE STYLES
+=====
+*/
+
+.loader {
+  color: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.loader::before {
+  content: attr(data-text);
+  width: 100%;
+  color: #fff;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  animation: loader 5s ease-in-out infinite both;
+}
+
+@keyframes loader {
+  0%,
+  10%,
+  90%,
+  100% {
+    clip-path: circle(0 at 50% 50%);
+  }
+
+  40%,
+  60% {
+    clip-path: circle(50vmax at 50% 50%);
+  }
+}
+
+/*
+=====
+DEMO
+=====
+*/
+
+body {
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #009688;
+}
+
+.loader {
+  font-family: "Baloo Tamma", sans-serif;
+  font-size: 5rem;
+
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+
+  margin: auto;
+}
