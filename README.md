@@ -24,6 +24,11 @@ Consists of all mini apps made using React in a time span of 30 days with full f
 <a href="19.Lightsout" target="_blank">19.Lightsout game</a></br></br>
 <a href="20.boxexercise" target="_blank">20. Box Execrice(creating div of different dimensions and colors)</a></br></br>
 <a href="21.todolist" target="_blank">21. TodoList using react</a></br></br>
+<a href="22.yahtzee" target="_blank">22.yahtzee game</a></br></br>
+<a href="23.stateajax" target="_blank">23.React Lifecycle methods</a></br></br>
+<a href="24.lifecycledeckecercise" target="_blank">24. Card Deck exercise using react lifecycle methods</a></br></br>
+<a href="25.Dad jokes" target="_blank">25.Dad jokes Exercise </a></br></br>
+
 
 
 
