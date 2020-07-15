@@ -22,6 +22,8 @@ Consists of all mini apps made using React in a time span of 30 days with full f
 <a href="17.colorboxes" target="_blank">17.colorboxes</a></br></br>
 <a href="18.Hangman" target="_blank">18.Hangman Game</a></br></br>
 <a href="19.Lightsout" target="_blank">19.Lightsout game</a></br></br>
+<a href="20.boxexercise" target="_blank">20. Box Execrice(creating div of different dimensions and colors)</a></br></br>
+<a href="21.todolist" target="_blank">21. TodoList using react</a></br></br>
 
 
 
