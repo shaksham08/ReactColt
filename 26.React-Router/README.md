@@ -153,4 +153,4 @@ They look same but they are different.
 
 Both are used in applications, but we can use components when we are not passing props and when we are passing props then render can be used.
 
-Mostly the use depends on what we are making, i.e some thime we want to use Reactlifecycle methods then render can be used as we wount to mount the componet only once in many cases
+Mostly the use depends on what we are making, i.e some time we want to use Reactlifecycle methods then render can be used as we want to mount the component only once in many cases
