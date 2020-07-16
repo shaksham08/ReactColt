@@ -1,0 +1,470 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Client-Side Routing with React Router</title>
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/handouts-sphinx.css"/>
+
+    
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Inconsolata:400,700'
+          rel='stylesheet' type='text/css'>
+    
+</head>
+<body>
+<div id="page-wrapper">
+    <div id="page-sidebar">
+        <header>
+            <p class="project">Demo</p>
+
+            <p class="title">Client-Side Routing with React Router</p>
+
+
+        </header>
+        <div id="toc">
+            <ul>
+<li><a class="reference internal" href="#">Client-Side Routing with React Router</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a><ul>
+<li><a class="reference internal" href="#id1">Goals</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#server-side-routing">Server-Side Routing</a><ul>
+<li><a class="reference internal" href="#id2">Server-Side Routing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#client-side-routing">Client-Side Routing</a><ul>
+<li><a class="reference internal" href="#faking-client-side-routing">Faking Client Side Routing</a></li>
+<li><a class="reference internal" href="#real-client-side-routing">Real Client-Side Routing</a></li>
+<li><a class="reference internal" href="#client-side-routing-what">Client-Side Routing: What?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#react-router">React Router</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#including-the-router">Including the Router</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#routes-switch-and-links">Routes, Switch, and Links</a><ul>
+<li><a class="reference internal" href="#a-sample-application">A Sample Application</a></li>
+<li><a class="reference internal" href="#route-component"><cite>Route</cite> Component</a></li>
+<li><a class="reference internal" href="#switch-component"><cite>Switch Component</cite></a></li>
+<li><a class="reference internal" href="#link-component"><cite>Link</cite> Component</a></li>
+<li><a class="reference internal" href="#navlink-component"><cite>NavLink</cite> Component</a></li>
+<li><a class="reference internal" href="#a-sample-navigation-bar">A Sample Navigation Bar</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wrap-up">Wrap-Up</a><ul>
+<li><a class="reference internal" href="#id3">Wrap-Up</a></li>
+<li><a class="reference internal" href="#client-side-vs-server-side">Client-side vs. Server-side</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#looking-ahead">Looking Ahead</a><ul>
+<li><a class="reference internal" href="#coming-up">Coming Up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+    </div>
+    <div id="page-content">
+        
+  <div class="section" id="client-side-routing-with-react-router">
+<h1>Client-Side Routing with React Router</h1>
+<div class="section" id="goals">
+<h2>Goals</h2>
+<div class="section" id="id1">
+<div class="docutils container">
+<ul class="simple">
+<li>Describe what client-side routing is and why it’s useful</li>
+<li>Compare client-side routing to server-side routing</li>
+<li>Implement basic client-side routing with React Router</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="server-side-routing">
+<h2>Server-Side Routing</h2>
+<div class="section" id="id2">
+<ul class="simple">
+<li>Traditional routing is “Server-side routing”<ul>
+<li>Clicking a <cite>&lt;a&gt;</cite> link causes browser to request a new page &amp; replace entire DOM</li>
+</ul>
+</li>
+<li>Server decides what HTML to return based on URL requested, entire page refreshes</li>
+</ul>
+</div>
+</div>
+<div class="section" id="client-side-routing">
+<h2>Client-Side Routing</h2>
+<div class="section" id="faking-client-side-routing">
+<h3>Faking Client Side Routing</h3>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">demo/nonrouted/src/App.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">App</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span><span class="nx">page</span><span class="p">:</span> <span class="s">&quot;home&quot;</span><span class="p">};</span>
+
+  <span class="nx">goToPage</span><span class="p">(</span><span class="nx">page</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">page</span><span class="p">:</span> <span class="nx">page</span><span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="nx">showRightPage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">page</span> <span class="o">===</span> <span class="s">&quot;home&quot;</span><span class="p">)</span> <span class="k">return</span> <span class="p">&lt;</span><span class="nt">Home</span> <span class="p">/&gt;;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">page</span> <span class="o">===</span> <span class="s">&quot;eat&quot;</span><span class="p">)</span> <span class="k">return</span> <span class="p">&lt;</span><span class="nt">Eat</span> <span class="p">/&gt;;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">page</span> <span class="o">===</span> <span class="s">&quot;drink&quot;</span><span class="p">)</span> <span class="k">return</span> <span class="p">&lt;</span><span class="nt">Drink</span> <span class="p">/&gt;;</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">a</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">goToPage</span><span class="p">(</span><span class="s">&#39;home&#39;</span><span class="p">)}&gt;</span>Home<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">a</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">goToPage</span><span class="p">(</span><span class="s">&#39;eat&#39;</span><span class="p">)}&gt;</span>Eat<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">a</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">goToPage</span><span class="p">(</span><span class="s">&#39;drink&#39;</span><span class="p">)}&gt;</span>Drink<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+        <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">showRightPage</span><span class="p">()</span> <span class="p">}</span>
+      <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>That’s <em>okay</em></p>
+<div class="docutils container">
+<ul class="simple">
+<li>It does let us show different “pages”<ul>
+<li>All in the front-end, without loading new pages from server</li>
+</ul>
+</li>
+<li>But we don’t get<ul>
+<li>A different URL as we move around “pages”</li>
+<li>The ability to use the back/forward browser buttons ⬅️ ➡️ 😭</li>
+<li>Any way to bookmark a “page” on the site 📖 📑 😱</li>
+<li>More complex route/pattern matching</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="real-client-side-routing">
+<h3>Real Client-Side Routing</h3>
+<p><strong>React can give us real Client-Side Routing</strong></p>
+</div>
+<div class="section" id="client-side-routing-what">
+<h3>Client-Side Routing: What?</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>Client-side routing handles mapping between URL bar and the content a user <span class="raw-reveal"><br></span>
+sees via <em>browser</em> rather than via <em>server</em>.</li>
+<li>Sites that exclusively use client-side routing are
+<strong>single-page applications</strong>.</li>
+<li>We use JavaScript to manipulate the URL bar with a Web API called History</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="react-router">
+<h2>React Router</h2>
+<div class="section" id="installation">
+<h3>Installation</h3>
+<p>To get started with React Router, install <cite>react-router-dom</cite>.</p>
+<pre class="console literal-block">
+$ <span class="cmd">create-react-app routed</span>
+$ <span class="cmd">cd routed</span>
+$ <span class="cmd">npm install react-router-dom</span>
+</pre>
+</div>
+<div class="section" id="including-the-router">
+<h3>Including the Router</h3>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">demo/routed/src/index.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">import</span> <span class="p">{</span><span class="nx">BrowserRouter</span><span class="p">}</span> <span class="nx">from</span> <span class="s">&quot;react-router-dom&quot;</span><span class="p">;</span>
+</span>
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="hll">    <span class="p">&lt;</span><span class="nt">BrowserRouter</span><span class="p">&gt;</span>
+</span>      <span class="p">&lt;</span><span class="nt">App</span> <span class="p">/&gt;</span>
+<span class="hll">    <span class="p">&lt;/</span><span class="nt">BrowserRouter</span><span class="p">&gt;,</span>
+</span>    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s">&quot;root&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="docutils container">
+<p>Wrap your <cite>&lt;App /&gt;</cite> renders with a <cite>BrowserRouter</cite></p>
+</div>
+<div class="docutils container">
+<p>There are other routers besides <cite>BrowserRouter</cite> — don’t worry about them.</p>
+</div>
+<div class="admonition note">
+<p><strong>Other types of routers</strong></p>
+<p>If you read through the React Router docs, you’ll see examples of other types
+of routers. Here’s a brief description of them:</p>
+<ul class="last simple">
+<li><cite>HashRouter</cite>: this router is designed for support with older browsers that
+may not have access to the full history API. In such cases, you can still
+get single-page type functionality by inserting an anchor (#) into the URL.
+However, this does not provide full backwards-compatibility: for this
+reason, the React Router documentation recommends <cite>BrowserRouter</cite> over
+<cite>HashRouter</cite> if possible.</li>
+<li><cite>MemoryRouter</cite> This router mocks the history API by keeping a log of the
+browser history in memory. This can be helpful when writing tests, since
+tests are typically run outside of a browser environment.</li>
+<li><cite>NativeRouter</cite> This router is designed for React Native applications.</li>
+<li><cite>StaticRouter</cite> This is a router that never changes location. When would you
+ever use this? According to the docs, “This can be useful in server-side
+rendering scenarios when the user isn’t actually clicking around, so the
+location never actually changes. Hence, the name: static. It’s also useful
+in simple tests when you just need to plug in a location and make assertions
+on the render output.”</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="routes-switch-and-links">
+<h2>Routes, Switch, and Links</h2>
+<div class="section" id="a-sample-application">
+<h3>A Sample Application</h3>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">App.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s">&quot;react&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Home</span> <span class="nx">from</span> <span class="s">&quot;./Home&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Eat</span> <span class="nx">from</span> <span class="s">&quot;./Eat&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Drink</span> <span class="nx">from</span> <span class="s">&quot;./Drink&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">NavBar</span> <span class="nx">from</span> <span class="s">&quot;./NavBar&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span><span class="p">}</span> <span class="nx">from</span> <span class="s">&quot;react-router-dom&quot;</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">App</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className</span><span class="o">=</span><span class="s">&quot;App&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">NavBar</span> <span class="p">/&gt;</span>
+          <span class="p">&lt;</span><span class="nt">Switch</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">Route</span> 
+              <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span>      
+              <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Home</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">Route</span> 
+              <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/eat&quot;</span>  
+              <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Eat</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">Route</span> 
+              <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/drink&quot;</span>
+              <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Drink</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">Switch</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="route-component">
+<h3><cite>Route</cite> Component</h3>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">Route</span> <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/eat&quot;</span> <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Eat</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+</pre></div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li><cite>Route</cite> component acts as translation service between routes &amp;
+components.<ul>
+<li>Tell it path to look for in URL, and what to render when it finds match.</li>
+</ul>
+</li>
+<li>Props you can set on a <cite>Route</cite>:<ul>
+<li><cite>exact</cite> <em>(optional bool)</em>, does path need to match <em>exactly</em>? <span class="raw-reveal"><br></span>
+<em>/foo/bar</em> in URL bar will match <code class="docutils literal notranslate"><span class="pre">path=&quot;/foo&quot;</span></code> — but match won’t be
+<em>exact.</em></li>
+<li><cite>path</cite>: path that must match</li>
+<li><cite>render</cite> what should be rendered (expects function that returns JSX)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="docutils container">
+<p>That example: “when path is exactly <em>/eat</em>, render <cite>&lt;Eat /&gt;</cite> component”</p>
+</div>
+<div class="admonition note">
+<p><strong>Stick with render</strong></p>
+<p>If you look in the React Router docs, you’ll see that there are actually
+three different ways to pass a component into <cite>Route</cite>: you can use either the
+<cite>render</cite> prop, the <cite>component</cite> prop, or the <cite>children</cite> prop. Unfortunately,
+this is one of the most confusing parts of the library, as these all do
+similar but slightly different things.</p>
+<p class="last">We’ll use <cite>render</cite> exclusively, and this should be fine for all of your needs.</p>
+</div>
+</div>
+<div class="section" id="switch-component">
+<h3><cite>Switch Component</cite></h3>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">App.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span>          <span class="p">&lt;</span><span class="nt">Switch</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">Route</span> 
+              <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/&quot;</span>      
+              <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Home</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">Route</span> 
+              <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/eat&quot;</span>  
+              <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Eat</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">Route</span> 
+              <span class="na">exact</span> <span class="na">path</span><span class="o">=</span><span class="s">&quot;/drink&quot;</span>
+              <span class="na">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">&lt;</span><span class="nt">Drink</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">Switch</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="docutils container">
+<ul class="simple">
+<li>Since we only expect one of these to match, wrap in <cite>&lt;Switch&gt;</cite></li>
+<li>This stops searching once it finds a match</li>
+<li>This is <em>almost</em> always what you want</li>
+</ul>
+</div>
+</div>
+<div class="section" id="link-component">
+<h3><cite>Link</cite> Component</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>The <cite>&lt;Link&gt;</cite> component acts as a replacement for <cite>&lt;a&gt;</cite> tags.</li>
+<li>Instead of an <cite>href</cite> attribute, <cite>&lt;Link&gt;</cite> uses a <cite>to</cite> prop.</li>
+<li>Clicking on <cite>&lt;Link&gt;</cite> does <em>not</em> issue a GET request.<ul>
+<li>JS intercepts click and does client-side routing</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="docutils container">
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to <span class="p">&lt;</span><span class="nt">Link</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;/drink&quot;</span><span class="p">&gt;</span>drinks<span class="p">&lt;/</span><span class="nt">Link</span><span class="p">&gt;</span> page<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="navlink-component">
+<h3><cite>NavLink</cite> Component</h3>
+<div class="docutils container">
+<ul class="simple">
+<li><cite>&lt;NavLink&gt;</cite> is just like link, with one additional feature<ul>
+<li>If at page that link would go to, the <cite>&lt;a&gt;</cite> gets a CSS class of <em>active</em></li>
+<li>This lets you stylize links to “page you are already at” using the <code class="docutils literal notranslate"><span class="pre">activeStyle</span></code> (in-line) or <code class="docutils literal notranslate"><span class="pre">activeClassName</span></code> props</li>
+<li>You should include an <cite>exact</cite> prop here as well</li>
+</ul>
+</li>
+<li>Very helpful for navigation menus</li>
+</ul>
+</div>
+</div>
+<div class="section" id="a-sample-navigation-bar">
+<h3>A Sample Navigation Bar</h3>
+<div class="docutils container">
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Nav.js</span></div>
+<div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span><span class="nx">Component</span><span class="p">}</span> <span class="nx">from</span> <span class="s">&quot;react&quot;</span><span class="p">;</span>
+<span class="hll"><span class="k">import</span> <span class="p">{</span><span class="nx">NavLink</span><span class="p">}</span> <span class="nx">from</span> <span class="s">&quot;react-router-dom&quot;</span><span class="p">;</span>
+</span><span class="k">import</span> <span class="s">&#39;./NavBar.css&#39;</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">NavBar</span> <span class="k">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">activeStyle</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">fontWeight</span><span class="p">:</span> <span class="s">&quot;bold&quot;</span><span class="p">,</span>
+      <span class="nx">color</span><span class="p">:</span> <span class="s">&quot;mediumorchid&quot;</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">NavLink</span> <span class="na">exact</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;/&quot;</span>
+            <span class="na">activeStyle</span><span class="o">=</span><span class="p">{</span><span class="nx">activeStyle</span><span class="p">}&gt;</span>Home<span class="p">&lt;/</span><span class="nt">NavLink</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">NavLink</span> <span class="na">exact</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;/eat&quot;</span>
+            <span class="na">activeStyle</span><span class="o">=</span><span class="p">{</span><span class="nx">activeStyle</span><span class="p">}&gt;</span>Eat<span class="p">&lt;/</span><span class="nt">NavLink</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">NavLink</span> <span class="na">exact</span> <span class="na">to</span><span class="o">=</span><span class="s">&quot;/drink&quot;</span>
+            <span class="na">activeStyle</span><span class="o">=</span><span class="p">{</span><span class="nx">activeStyle</span><span class="p">}&gt;</span>Drink<span class="p">&lt;/</span><span class="nt">NavLink</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">NavBar</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="wrap-up">
+<h2>Wrap-Up</h2>
+<div class="section" id="id3">
+<div class="docutils container">
+<ul class="simple">
+<li>With React-Router, you can get “client-side routing”<ul>
+<li>“Moving around site” doesn’t require server load</li>
+<li>URL bar, bookmarks, and back/forward button still work</li>
+</ul>
+</li>
+<li>You need to<ul>
+<li>Wrap contents of your <cite>&lt;App&gt;</cite> with a <cite>&lt;BrowserRouter&gt;</cite></li>
+<li>Use a <cite>&lt;Route&gt;</cite> component for each different route</li>
+<li>For navigation links to those routes, use a <cite>&lt;Link&gt;</cite></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="client-side-vs-server-side">
+<h3>Client-side vs. Server-side</h3>
+<div class="compare docutils container">
+<div class="docutils container">
+<p><strong>Client-side Routing</strong></p>
+<div class="docutils container">
+<ul class="simple">
+<li>Potentially improved UI/UX</li>
+<li>More modern architecture</li>
+<li>Potentially worse SEO</li>
+</ul>
+</div>
+</div>
+<div class="docutils container">
+<p><strong>Server-side Routing</strong></p>
+<div class="docutils container">
+<ul class="simple">
+<li>Page reload with every URL change</li>
+<li>More traditional architecture</li>
+<li>Potentially better SEO</li>
+</ul>
+</div>
+</div>
+<div class="docutils container">
+<p>Which is better? <strong>It depends.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="looking-ahead">
+<h2>Looking Ahead</h2>
+<div class="section" id="coming-up">
+<h3>Coming Up</h3>
+<div class="docutils container">
+<ul class="simple">
+<li>More on route props</li>
+<li>Redirecting with React Router</li>
+<li>How to organize your routes</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src="_static/jquery.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<script type="text/javascript" src="_static/language_data.js"></script> 
+</body>
+</html>
