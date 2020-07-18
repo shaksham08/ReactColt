@@ -1,0 +1,44 @@
+.Dog img {
+  width: 75%;
+  filter: grayscale();
+  border-radius: 50%;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.1);
+  transition: 0.4s filter ease;
+}
+.Dog:hover img {
+  filter: none;
+}
+
+.Dog .underline {
+  text-decoration: none;
+  border: 4px solid transparent;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 36px;
+  text-transform: uppercase;
+  color: black;
+  letter-spacing: 0.2em;
+  text-align: center;
+  font-size: 1.4rem;
+  margin: 10px;
+  position: relative;
+}
+
+.underline::after {
+  width: 0%;
+  height: 4px;
+  display: block;
+  background-color: #fff;
+  content: " ";
+  position: absolute;
+  top: 34px;
+  left: 50%;
+  transition: left 0.4s cubic-bezier(0.215, 0.61, 0.355, 1),
+    width 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.Dog:hover .underline::after {
+  width: 100%;
+  top: 34px;
+  left: 0;
+}
