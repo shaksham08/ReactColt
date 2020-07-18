@@ -34,7 +34,7 @@ Here if we go and see what is stored in stuff then we will see that its an Objec
 
 On going to Match from React Dev Tool We can find the params,url and path
 
-![A test image](./utilities/params.png)
+![A test image](https://github.com/shaksham08/ReactColt/blob/master/27.React-Router-Pattern/utilities/params.PNG)
 
 So we can use the Params value as Props also.
 
