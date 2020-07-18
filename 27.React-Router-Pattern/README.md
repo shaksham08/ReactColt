@@ -213,9 +213,9 @@ But if we click back button then again it will go to that food not found page i.
 
 ## 7. Issue with ROuter with Higher Order Component
 
-Specially when we are trying to push from a component which is not assiciated with a Route
+Specially when we are trying to push from a component which is not assiciated with a Route then it has not access to the router params.
 
-For example if we add a vanbar component in App.js
+For example if we add a navnbar component in App.js
 
 ```jsx
 <div className="App">
