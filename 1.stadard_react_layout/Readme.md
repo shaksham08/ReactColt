@@ -1,4 +1,6 @@
+It’s conventional for the top-level component to be named App.
 
+This renders the other components:
 
 ```jsx
 class App extends React.Component {
@@ -13,3 +15,5 @@ class App extends React.Component {
   }
 }
 ```
+
+These components can even be reused
