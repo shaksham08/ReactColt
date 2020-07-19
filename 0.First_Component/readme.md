@@ -19,6 +19,15 @@ class Dog {
 }
 ```
 
+# JSX
+
+JSX is like HTML embedded in JavaScript
+
+```jsx
+if (score > 100) {
+  return <b>You win, { playerName }</b>
+}
+```
 
 
 
